@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div class="skill-circle animate-on-scroll">
+    <div class="circle-progress" data-percent="@Percent">
+        <svg class="progress-ring" width="120" height="120">
+            <circle class="progress-ring-background" cx="60" cy="60" r="54" stroke-width="8" />
+            <circle class="progress-ring-circle" cx="60" cy="60" r="54" stroke-width="8"
+                    stroke-dasharray="339.292" stroke-dashoffset="339.292" />
+        </svg>
+        <div class="circle-content">
+            <div class="circle-value">@Percent%</div>
+        </div>
+        <div class="circle-label">@Label</div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Percent { get; set; }
+
+    [Parameter]
+    public string Label { get; set; } = string.Empty;
+}

@@ -1,0 +1,20 @@
+﻿@page "/"
+@using JM__Port.Components
+@inject IJSRuntime JSRuntime
+
+<HeroSection />
+<AboutSection />
+<SkillsSection />
+<ProjectsSection />
+<ContactSection />
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("eval",
+                "if (typeof initializeScrollAnimations === 'function') initializeScrollAnimations();");
+        }
+    }
+}

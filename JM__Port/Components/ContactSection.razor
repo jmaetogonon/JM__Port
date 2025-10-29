@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<section id="contact" class="contact-section">
+    <div class="container">
+        <h2 class="section-title animate-on-scroll">Let's Connect</h2>
+        <div class="contact-content">
+            <div class="contact-info animate-on-scroll">
+                <h3>Get In Touch</h3>
+                <p>I'm always open to discussing new opportunities, creative projects, or potential collaborations.</p>
+                
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-icon">📧</div>
+                        <span>jochelle@example.com</span>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">💼</div>
+                        <span>LinkedIn</span>
+                    </div>
+                    <div class="contact-method">
+                        <div class="contact-icon">🐙</div>
+                        <span>GitHub</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form animate-on-scroll">
+                <EditForm Model="contactModel" OnValidSubmit="HandleValidSubmit">
+                    <div class="form-group">
+                        <InputText @bind-Value="contactModel.Name" class="form-control" placeholder="Your Name" />
+                    </div>
+                    <div class="form-group">
+                        <InputText @bind-Value="contactModel.Email" class="form-control" placeholder="Your Email" />
+                    </div>
+                    <div class="form-group">
+                        <InputTextArea @bind-Value="contactModel.Message" class="form-control" placeholder="Your Message" rows="5" />
+                    </div>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+    private ContactModel contactModel = new ContactModel();
+
+    private void HandleValidSubmit()
+    {
+        // Handle form submission
+        Console.WriteLine("Form submitted successfully!");
+        // Reset form
+        contactModel = new ContactModel();
+    }
+
+    private class ContactModel
+    {
+        public string Name { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Message { get; set; } = "";
+    }
+}

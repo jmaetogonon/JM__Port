@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<section id="hero" class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text animate-on-scroll">
+            <h1 class="hero-title">Jochelle Mae Mabasa</h1>
+
+            <!-- Clean Animated Subtitle -->
+            <div class="hero-subtitle-container">
+                <h2 class="hero-subtitle">
+                    Full Stack
+                    <span class="animated-word" id="animatedWord">Web Developer</span>
+                </h2>
+            </div>
+
+            <p class="hero-description">
+                Crafting beautiful, functional applications with C#, .NET, Blazor, and mobile technologies.
+            </p>
+            <div class="hero-buttons">
+                <button class="btn-primary" @onclick="ScrollToProjects">View My Work</button>
+                <button class="btn-secondary" @onclick="ScrollToContact">Get In Touch</button>
+            </div>
+        </div>
+        <div class="hero-visual animate-on-scroll">
+            <div class="floating-code">
+                <div class="code-line">> HelloWorld()</div>
+                <div class="code-line">> Welcome to my portfolio</div>
+                <div class="code-line blinking-cursor">_</div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator" @onclick="ScrollToAbout">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("startWordAnimation");
+        }
+    }
+
+    private async Task ScrollToAbout()
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToElement", "about");
+    }
+
+    private async Task ScrollToProjects()
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToElement", "projects");
+    }
+
+    private async Task ScrollToContact()
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToElement", "contact");
+    }
+}

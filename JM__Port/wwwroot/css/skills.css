@@ -1,0 +1,382 @@
+﻿/* Skills Section */
+.skills-section {
+    background: var(--background-alt);
+    padding: 5rem 0;
+    position: relative;
+}
+
+/* Skills Carousel */
+.skills-carousel {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skills-slide {
+    min-width: 100%;
+    padding: 2rem 0;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    justify-items: center;
+    align-items: start;
+    position: relative;
+}
+
+/* Modern Circular Progress Bars */
+.skill-circle {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.circle-progress {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 1.5rem;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-background {
+    fill: none;
+    stroke: #f1f5f9;
+    stroke-width: 8;
+}
+
+.progress-ring-circle {
+    fill: none;
+    stroke: url(#skills-gradient);
+    stroke-width: 12;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1.5s ease-in-out;
+}
+
+/* Percent Text */
+.circle-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.circle-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+.circle-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-align: center;
+    line-height: 1.3;
+    margin: 14px auto 0 auto;
+}
+
+/* Carousel Controls - Centered with skills content */
+.carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 2rem auto 0 auto;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.carousel-prev,
+.carousel-next {
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+/* Position buttons at edges of the skills grid */
+.carousel-prev {
+    left: calc(50% - 500px + 30px); /* Half container width minus half grid width + half button width */
+}
+
+.carousel-next {
+    right: calc(50% - 500px + 30px); /* Half container width minus half grid width + half button width */
+}
+
+    .carousel-prev:hover,
+    .carousel-next:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Button animations */
+    .carousel-prev:active,
+    .carousel-next:active {
+        transform: translateY(-50%) scale(0.95);
+    }
+
+/* Carousel Indicators - Centered below buttons */
+.carousel-indicators {
+    display: flex;
+    gap: 0.75rem;
+    position: absolute;
+    bottom: 52px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+    .indicator::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--gradient);
+        transition: left 0.3s ease;
+        border-radius: 50%;
+    }
+
+    .indicator.active {
+        transform: scale(1.2);
+        border-color: var(--primary-dark);
+    }
+
+        .indicator.active::before {
+            left: 0;
+        }
+
+    .indicator:hover {
+        transform: scale(1.1);
+        background: var(--primary-color);
+    }
+
+/* Animation for skill circles when they come into view */
+.skill-circle.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .skill-circle.animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+/* Slide animations */
+.skills-slide {
+    opacity: 0.5;
+    transform: scale(0.95);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+    .skills-slide.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+/* Pulse animation for active slide */
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+    }
+}
+
+.carousel-prev:focus,
+.carousel-next:focus {
+    animation: pulseGlow 1.5s infinite;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .skills-carousel,
+    .carousel-controls {
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .carousel-prev {
+        left: calc(50% - 450px + 30px);
+    }
+
+    .carousel-next {
+        right: calc(50% - 450px + 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem;
+    }
+
+    .circle-progress {
+        width: 120px;
+        height: 120px;
+    }
+
+    .circle-value {
+        font-size: 1.6rem;
+    }
+
+    .circle-label {
+        font-size: 0.9rem;
+    }
+
+    /* Adjust button positioning for mobile */
+    .carousel-prev,
+    .carousel-next {
+        width: 50px;
+        height: 50px;
+    }
+
+    .carousel-prev {
+        left: 20px;
+    }
+
+    .carousel-next {
+        right: 20px;
+    }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+    .carousel-indicators {
+        bottom: -10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .circle-progress {
+        width: 110px;
+        height: 110px;
+    }
+
+    .circle-value {
+        font-size: 1.5rem;
+    }
+
+    .circle-label {
+        font-size: 0.85rem;
+    }
+
+    .carousel-indicators {
+        gap: 0.5rem;
+        bottom: -15px;
+    }
+
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Further adjust buttons for very small screens */
+    .carousel-prev,
+    .carousel-next {
+        width: 45px;
+        height: 45px;
+    }
+
+    .carousel-prev {
+        left: 10px;
+    }
+
+    .carousel-next {
+        right: 10px;
+    }
+}
+
+/* Prevent horizontal scroll and ensure proper centering */
+@media (max-width: 1000px) {
+    .skills-carousel,
+    .carousel-controls {
+        margin: 0 2rem;
+        max-width: calc(100% - 4rem);
+    }
+
+    .carousel-prev {
+        left: 0;
+    }
+
+    .carousel-next {
+        right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-carousel,
+    .carousel-controls {
+        margin: 0 1rem;
+        max-width: calc(100% - 2rem);
+    }
+
+    .carousel-prev {
+        left: -5px;
+    }
+
+    .carousel-next {
+        right: -5px;
+    }
+}
