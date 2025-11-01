@@ -77,6 +77,14 @@ function scrollToElement(elementId) {
         });
     }
 }
+// Prevent body scroll when modal is open
+function preventBodyScroll() {
+    document.body.style.overflow = 'hidden';
+}
+
+function allowBodyScroll() {
+    document.body.style.overflow = '';
+}
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function () {
@@ -87,3 +95,5 @@ document.addEventListener('DOMContentLoaded', function () {
 window.startWordAnimation = startWordAnimation;
 window.scrollToElement = scrollToElement;
 window.initializeScrollAnimations = initializeScrollAnimations;
+window.preventBodyScroll = preventBodyScroll;
+window.allowBodyScroll = allowBodyScroll;

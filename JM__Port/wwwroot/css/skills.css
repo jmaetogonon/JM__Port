@@ -29,7 +29,6 @@
     gap: 4rem;
     justify-items: center;
     align-items: start;
-    position: relative;
 }
 
 /* Modern Circular Progress Bars */
@@ -91,18 +90,19 @@
     margin: 14px auto 0 auto;
 }
 
-/* Carousel Controls - Centered with skills content */
+/* Carousel Controls - Now inside carousel */
 .carousel-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 2rem auto 0 auto;
-    height: 100%;
+    justify-content: space-between;
     position: absolute;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 20;
+    pointer-events: none;
+    margin: 0px 3rem;
 }
 
 .carousel-prev,
@@ -110,8 +110,8 @@
     background: var(--card-bg);
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
-    width: 60px;
-    height: 60px;
+    width: 45px;
+    height: 45px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -119,82 +119,62 @@
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow);
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 20;
+    pointer-events: all;
 }
 
-/* Position buttons at edges of the skills grid */
+/* Position buttons at edges of carousel */
 .carousel-prev {
-    left: calc(50% - 500px + 30px); /* Half container width minus half grid width + half button width */
+    transform: translateX(-50%);
 }
 
 .carousel-next {
-    right: calc(50% - 500px + 30px); /* Half container width minus half grid width + half button width */
+    transform: translateX(50%);
 }
 
     .carousel-prev:hover,
     .carousel-next:hover {
         background: var(--primary-color);
         color: white;
-        transform: translateY(-50%) scale(1.1);
+        transform: translateX(-50%) scale(1.1);
         box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
     }
 
-    /* Button animations */
-    .carousel-prev:active,
-    .carousel-next:active {
-        transform: translateY(-50%) scale(0.95);
+    .carousel-next:hover {
+        transform: translateX(50%) scale(1.1);
     }
 
-/* Carousel Indicators - Centered below buttons */
+/* Carousel Indicators - Centered below carousel */
 .carousel-indicators {
     display: flex;
     gap: 0.75rem;
     position: absolute;
-    bottom: 52px;
+    bottom: -5.5rem;
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
+    margin: 0px;
 }
 
 .indicator {
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: #e2e8f0;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
+    display: inline-block;
 }
 
-    .indicator::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: var(--gradient);
-        transition: left 0.3s ease;
-        border-radius: 50%;
-    }
-
     .indicator.active {
+        background: var(--primary-color);
         transform: scale(1.2);
         border-color: var(--primary-dark);
     }
 
-        .indicator.active::before {
-            left: 0;
-        }
-
     .indicator:hover {
-        transform: scale(1.1);
         background: var(--primary-color);
+        transform: scale(1.1);
     }
 
 /* Animation for skill circles when they come into view */
@@ -221,7 +201,7 @@
         transform: scale(1);
     }
 
-/* Pulse animation for active slide */
+/* Pulse animation for buttons */
 @keyframes pulseGlow {
     0% {
         box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
@@ -242,141 +222,99 @@
 }
 
 /* Responsive */
-@media (max-width: 1100px) {
-    .skills-carousel,
-    .carousel-controls {
-        max-width: 900px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .carousel-prev {
-        left: calc(50% - 450px + 30px);
-    }
-
-    .carousel-next {
-        right: calc(50% - 450px + 30px);
-    }
-}
-
 @media (max-width: 768px) {
     .skills-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 3rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0rem;
+        padding: 3rem 0;
+        width: 100%;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        align-items: center;
+        justify-content: center;
+    }
+    .skills-carousel {
+        margin: 0 !important;
     }
 
-    .circle-progress {
-        width: 120px;
-        height: 120px;
+        .skills-carousel .carousel-controls {
+            margin: 0px 1rem;
+        }
+
+    .skill-circle {
+        min-width: 120px;
+        scroll-snap-align: start;
     }
 
     .circle-value {
-        font-size: 1.6rem;
+        font-size: 1.4rem;
     }
 
     .circle-label {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        max-width: 90px;
+        margin: 10px auto 0 auto;
     }
 
     /* Adjust button positioning for mobile */
     .carousel-prev,
     .carousel-next {
-        width: 50px;
-        height: 50px;
-    }
-
-    .carousel-prev {
-        left: 20px;
-    }
-
-    .carousel-next {
-        right: 20px;
-    }
-
-        .carousel-prev:hover,
-        .carousel-next:hover {
-            transform: translateY(-50%) scale(1.1);
-        }
-
-    .carousel-indicators {
-        bottom: -10px;
+        width: 40px;
+        height: 40px;
     }
 }
 
 @media (max-width: 480px) {
-    .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
 
-    .circle-progress {
-        width: 110px;
-        height: 110px;
+    .skills-slide {
+        padding: 0;
     }
 
     .circle-value {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
     }
 
     .circle-label {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
+        max-width: 80px;
     }
 
     .carousel-indicators {
         gap: 0.5rem;
-        bottom: -15px;
     }
 
     .indicator {
-        width: 10px;
-        height: 10px;
+        width: 6px;
+        height: 6px;
     }
 
     /* Further adjust buttons for very small screens */
     .carousel-prev,
     .carousel-next {
-        width: 45px;
-        height: 45px;
-    }
-
-    .carousel-prev {
-        left: 10px;
-    }
-
-    .carousel-next {
-        right: 10px;
+        width: 35px;
+        height: 35px;
     }
 }
 
-/* Prevent horizontal scroll and ensure proper centering */
+/* Prevent horizontal scroll on smaller screens */
 @media (max-width: 1000px) {
-    .skills-carousel,
-    .carousel-controls {
-        margin: 0 2rem;
-        max-width: calc(100% - 4rem);
-    }
-
-    .carousel-prev {
-        left: 0;
-    }
-
-    .carousel-next {
-        right: 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .skills-carousel,
-    .carousel-controls {
+    .skills-carousel {
         margin: 0 1rem;
-        max-width: calc(100% - 2rem);
     }
 
     .carousel-prev {
-        left: -5px;
+        transform: translateX(-30%);
     }
 
     .carousel-next {
-        right: -5px;
+        transform: translateX(30%);
+    }
+
+    .carousel-prev:hover {
+        transform: translateX(-30%) scale(1.1);
+    }
+
+    .carousel-next:hover {
+        transform: translateX(30%) scale(1.1);
     }
 }

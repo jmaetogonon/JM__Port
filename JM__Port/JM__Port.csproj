@@ -4,11 +4,49 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>	  
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PublishTrimmed>true</PublishTrimmed>
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+  </PropertyGroup>	<PropertyGroup>
+		<PublishTrimmed>true</PublishTrimmed>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <BlazorWebAssemblyBasePath>/JM__Port</BlazorWebAssemblyBasePath>
+    <AssemblyName>JM__Port</AssemblyName>
+  </PropertyGroup>	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<BlazorWebAssemblyBasePath>/JM__Port</BlazorWebAssemblyBasePath>
+		<AssemblyName>JM__Port</AssemblyName>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.8" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\projects\inventopro\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".github\workflows\deploy.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\projects\request-monitoring\1.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\images\projects\request-monitoring\2.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\images\projects\request-monitoring\3.jpg">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

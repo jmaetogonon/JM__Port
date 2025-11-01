@@ -1,0 +1,131 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<div class="project-card animate-on-scroll" @onclick="OpenModal">
+    <div class="project-image">
+        <img src="@Images[0]" alt="@Title" loading="lazy" />
+        <div class="project-overlay">
+            <div class="project-placeholder">@Title</div>
+            <div class="view-project-btn">View Project</div>
+        </div>
+    </div>
+    <div class="project-content">
+        <h3>@Title</h3>
+        <p>@Description</p>
+        <div class="project-tech">
+            @foreach (var tech in Technologies)
+            {
+                <span>@tech</span>
+            }
+        </div>
+    </div>
+</div>
+
+@if (ShowModal)
+{
+    <div class="project-modal" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation>
+            <button class="modal-close" @onclick="CloseModal">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            
+            <div class="modal-carousel">
+                <button class="carousel-prev" @onclick="PrevImage">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <div class="carousel-container">
+                    <img src="@Images[CurrentImageIndex]" alt="@Title - Image @(CurrentImageIndex + 1)" class="carousel-image" />
+                </div>
+                
+                <button class="carousel-next" @onclick="NextImage">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                
+                <div class="carousel-indicators">
+                    @for (int i = 0; i < Images.Length; i++)
+                    {
+                        <span class="indicator @(i == CurrentImageIndex ? "active" : "")" @onclick="() => GoToImage(i)"></span>
+                    }
+                </div>
+            </div>
+            
+            <div class="modal-info">
+                <h3>@Title</h3>
+                <p>@Description</p>
+                <div class="project-tech">
+                    @foreach (var tech in Technologies)
+                    {
+                        <span>@tech</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Description { get; set; } = string.Empty;
+
+    [Parameter]
+    public string[] Technologies { get; set; } = Array.Empty<string>();
+
+    [Parameter]
+    public string[] Images { get; set; } = Array.Empty<string>();
+
+    private bool ShowModal = false;
+    private int CurrentImageIndex = 0;
+
+    private void OpenModal()
+    {
+        ShowModal = true;
+        CurrentImageIndex = 0;
+        StateHasChanged();
+    }
+
+    private void CloseModal()
+    {
+        ShowModal = false;
+        StateHasChanged();
+    }
+
+    private void NextImage()
+    {
+        CurrentImageIndex = (CurrentImageIndex + 1) % Images.Length;
+        StateHasChanged();
+    }
+
+    private void PrevImage()
+    {
+        CurrentImageIndex = (CurrentImageIndex - 1 + Images.Length) % Images.Length;
+        StateHasChanged();
+    }
+
+    private void GoToImage(int index)
+    {
+        CurrentImageIndex = index;
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (ShowModal)
+        {
+            await JSRuntime.InvokeVoidAsync("preventBodyScroll");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("allowBodyScroll");
+        }
+    }
+}

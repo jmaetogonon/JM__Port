@@ -11,28 +11,11 @@ function updateCarousel(slideIndex) {
     // Update slide animations
     slides.forEach((slide, index) => {
         slide.classList.toggle('active', index === slideIndex);
-
-        // Add entrance animation for newly active slide
-        if (index === slideIndex) {
-            slide.style.animation = 'none';
-            setTimeout(() => {
-                slide.style.animation = 'fadeInScale 0.5s ease-out';
-            }, 10);
-        }
     });
 
-    // Update indicators with animation
+    // Update indicators
     indicators.forEach((indicator, index) => {
-        const wasActive = indicator.classList.contains('active');
         indicator.classList.toggle('active', index === slideIndex);
-
-        // Add animation for indicator change
-        if (!wasActive && index === slideIndex) {
-            indicator.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                indicator.style.transform = 'scale(1.2)';
-            }, 50);
-        }
     });
 
     // Animate progress circles
@@ -63,7 +46,7 @@ function animateProgressCircles(slide) {
             setTimeout(() => {
                 circleElement.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
                 circleElement.style.strokeDashoffset = offset;
-            }, index * 200); // 200ms delay between each circle
+            }, index * 200);
         }
     });
 }
@@ -80,14 +63,6 @@ function initializeSkillsAnimation() {
                     setTimeout(() => {
                         animateProgressCircles(activeSlide);
                     }, 300);
-                }
-
-                // Add animation to carousel controls when section is visible
-                const prevBtn = document.querySelector('.carousel-prev');
-                const nextBtn = document.querySelector('.carousel-next');
-                if (prevBtn && nextBtn) {
-                    prevBtn.style.animation = 'slideInLeft 0.6s ease-out';
-                    nextBtn.style.animation = 'slideInRight 0.6s ease-out';
                 }
             }
         });
@@ -135,49 +110,8 @@ function addGradientDefinition() {
     });
 }
 
-// Add CSS animations dynamically
-function addCustomAnimations() {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeInScale {
-            from {
-                opacity: 0.5;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-        
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateX(0);
-            }
-        }
-        
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(50%) translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(50%) translateX(0);
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
 document.addEventListener('DOMContentLoaded', function () {
     addGradientDefinition();
-    addCustomAnimations();
     initializeSkillsAnimation();
 });
 

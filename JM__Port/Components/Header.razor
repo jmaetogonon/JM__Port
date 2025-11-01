@@ -1,0 +1,106 @@
+﻿@using Microsoft.AspNetCore.Components
+@inject IJSRuntime JSRuntime
+
+<header class="@($"main-header {(IsSticky ? "sticky" : "")} {(IsScrolled ? "scrolled" : "")}")">
+    <div class="header-container">
+        <!-- Logo -->
+        <div class="header-logo">
+            <span class="logo-text">JM</span>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="header-nav">
+            <a href="#hero" class="nav-link @(GetNavLinkClass("hero"))" @onclick="@(() => NavigateToSection("hero"))">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">About</span>
+            </a>
+            <a href="#skills" class="nav-link @(GetNavLinkClass("skills"))" @onclick="@(() => NavigateToSection("skills"))">
+                <span class="nav-icon">⚡</span>
+                <span class="nav-text">Skills</span>
+            </a>
+            <a href="#projects" class="nav-link @(GetNavLinkClass("projects"))" @onclick="@(() => NavigateToSection("projects"))">
+                <span class="nav-icon">💼</span>
+                <span class="nav-text">Projects</span>
+            </a>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" @onclick="ToggleMobileMenu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="@($"mobile-menu {(IsMobileMenuOpen ? "open" : "")}")">
+        <nav class="mobile-nav">
+            <a href="#hero" class="mobile-nav-link" @onclick="@(() => NavigateToSection("hero"))">About</a>
+            <a href="#skills" class="mobile-nav-link" @onclick="@(() => NavigateToSection("skills"))">Skills</a>
+            <a href="#projects" class="mobile-nav-link" @onclick="@(() => NavigateToSection("projects"))">Projects</a>
+        </nav>
+    </div>
+</header>
+
+@code {
+    private bool IsSticky = false;
+    private bool IsScrolled = false;
+    private bool IsMobileMenuOpen = false;
+    private string ActiveSection = "hero";
+    private DotNetObjectReference<Header>? dotNetHelper;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dotNetHelper = DotNetObjectReference.Create(this);
+
+            // Initialize header functionality
+            await JSRuntime.InvokeVoidAsync("initializeHeader", dotNetHelper);
+        }
+    }
+
+    private string GetNavLinkClass(string section)
+    {
+        return ActiveSection == section ? "active" : "";
+    }
+
+    private async Task NavigateToSection(string sectionId)
+    {
+        ActiveSection = sectionId;
+        IsMobileMenuOpen = false;
+        await JSRuntime.InvokeVoidAsync("scrollToSection", sectionId);
+        StateHasChanged();
+    }
+
+    private void ToggleMobileMenu()
+    {
+        IsMobileMenuOpen = !IsMobileMenuOpen;
+    }
+    [JSInvokable]
+    public void CloseMobileMenu()
+    {
+        IsMobileMenuOpen = false;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnScroll(bool isSticky, bool isScrolled)
+    {
+        IsSticky = isSticky;
+        IsScrolled = isScrolled;
+        StateHasChanged();
+    }
+
+    [JSInvokable]
+    public void OnSectionChange(string sectionId)
+    {
+        ActiveSection = sectionId;
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        dotNetHelper?.Dispose();
+    }
+}
