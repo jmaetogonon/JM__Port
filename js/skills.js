@@ -110,10 +110,10 @@ function addGradientDefinition() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    addGradientDefinition();
-    initializeSkillsAnimation();
-});
+//document.addEventListener('DOMContentLoaded', function () {
+//    addGradientDefinition();
+//    initializeSkillsAnimation();
+//});
 
 window.updateCarousel = updateCarousel;
 window.initializeSkillsAnimation = initializeSkillsAnimation;
